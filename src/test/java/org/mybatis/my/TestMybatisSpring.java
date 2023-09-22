@@ -34,6 +34,8 @@ public class TestMybatisSpring {
     @Test
     public void testMapper() {
         ac = new ClassPathXmlApplicationContext("mybatis-spring.xml");
+        // UserMapper 是在 org.mybatis.spring.mapper.MapperFactoryBean.checkDaoConfig()
+        // 中创建中 configuration.addMapper(this.mapperInterface); 然后交由 Spring 进行管理
         UserMapper userMapper = ac.getBean(UserMapper.class);
         User u1 = userMapper.find("hehe");
         User u2 = userMapper.login("hehe", "123");
