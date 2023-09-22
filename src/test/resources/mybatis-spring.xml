@@ -50,9 +50,12 @@
     <!--</bean>-->
 
     <!--<mybatis-spring:scan base-package="org.mybatis.my.mapper" />-->
-    <mybatis-spring:scan base-package="org.mybatis.my.mapper"
-                         annotation="org.apache.ibatis.annotations.Mapper"
-    />
+    <!--
+    annotation 属性指定 mapper 类上的注解,如果不对应,则无法解析且不会被Spring管理
+    marker-interface 属性,指定 mapper 实现的哪个接口,如果不对应,则无法解析
+    -->
+    <mybatis-spring:scan annotation="org.apache.ibatis.annotations.Mapper" base-package="org.mybatis.my.mapper"/>
+    <!--<mybatis-spring:scan annotation="org.springframework.stereotype.Component" base-package="org.mybatis.my.mapper"/>-->
 
     <!-- 配置spring的生命式事务管理 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
