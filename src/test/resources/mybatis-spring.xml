@@ -61,6 +61,13 @@
     <mybatis-spring:scan base-package="org.mybatis.my.mapper"/>
     <!--<mybatis-spring:scan annotation="org.apache.ibatis.annotations.Mapper" base-package="org.mybatis.my.mapper"/>-->
     <!--<mybatis-spring:scan annotation="org.springframework.stereotype.Component" base-package="org.mybatis.my.mapper"/>-->
+    <!--
+    如果是单一定义的Mapper可以使用以下方式
+    -->
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+    <!--    <property name="mapperInterface" value="org.mybatis.my.mapper.UserMapper"/>-->
+    <!--    <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
 
     <!-- 配置spring的生命式事务管理 -->
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
