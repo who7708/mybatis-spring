@@ -47,14 +47,19 @@
     <!-- Mapper接口所在包，Spring会自动查找其下的Mapper -->
     <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
     <!--    <property name="basePackage" value="org.mybatis.my.mapper"/>-->
+    <!--    <property name="annotationClass" value="org.apache.ibatis.annotations.Mapper"/>-->
     <!--</bean>-->
 
-    <!--<mybatis-spring:scan base-package="org.mybatis.my.mapper" />-->
     <!--
+    spring.handlers 定义 NamespaceHandler
+    org.springframework.beans.factory.xml.NamespaceHandlerSupport.registerBeanDefinitionParser()
+    org.mybatis.spring.config.MapperScannerBeanDefinitionParser.parse() 进行解析的
+
     annotation 属性指定 mapper 类上的注解,如果不对应,则无法解析且不会被Spring管理
     marker-interface 属性,指定 mapper 实现的哪个接口,如果不对应,则无法解析
     -->
-    <mybatis-spring:scan annotation="org.apache.ibatis.annotations.Mapper" base-package="org.mybatis.my.mapper"/>
+    <mybatis-spring:scan base-package="org.mybatis.my.mapper"/>
+    <!--<mybatis-spring:scan annotation="org.apache.ibatis.annotations.Mapper" base-package="org.mybatis.my.mapper"/>-->
     <!--<mybatis-spring:scan annotation="org.springframework.stereotype.Component" base-package="org.mybatis.my.mapper"/>-->
 
     <!-- 配置spring的生命式事务管理 -->
