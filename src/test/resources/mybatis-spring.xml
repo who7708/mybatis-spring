@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-4.3.xsd
+       http://mybatis.org/schema/mybatis-spring
+       https://mybatis.org/schema/mybatis-spring.xsd"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring">
+
+    <!-- 配置组件扫描 -->
+    <!--<context:component-scan base-package="org.mybatis.my.mapper"/>-->
+
+    <!--&lt;!&ndash; 配置MVC注解扫描 &ndash;&gt;-->
+    <!--<mvc:annotation-driven/>-->
+
+    <util:properties id="cfg" location="classpath:configure.properties"/>
+
+    <!--配置DruidDataSource连接池 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close" init-method="init" lazy-init="true">
+        <property name="driverClassName" value="#{cfg.driver}"/>
+        <property name="url" value="#{cfg.url}"/>
+        <property name="username" value="#{cfg.username}"/>
+        <property name="password" value="#{cfg.password}"/>
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="#{cfg.initialSize}"/>
+        <!-- 连接池最大数量 -->
+        <property name="maxActive" value="#{cfg.maxActive}"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="#{cfg.minIdle}"/>
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="#{cfg.maxWait}"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <!-- Mapper接口所在包，Spring会自动查找其下的Mapper -->
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+    <!--    <property name="basePackage" value="org.mybatis.my.mapper"/>-->
+    <!--</bean>-->
+
+    <!--<mybatis-spring:scan base-package="org.mybatis.my.mapper" />-->
+    <mybatis-spring:scan base-package="org.mybatis.my.mapper"
+                         annotation="org.apache.ibatis.annotations.Mapper"
+    />
+
+    <!-- 配置spring的生命式事务管理 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <!--设置注解驱动的事务管理  -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+</beans>
