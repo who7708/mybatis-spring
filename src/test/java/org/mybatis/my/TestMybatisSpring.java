@@ -21,6 +21,8 @@ public class TestMybatisSpring {
         System.out.println("===== after =====");
         for (String beanDefinitionName : ac.getBeanDefinitionNames()) {
             System.out.println(beanDefinitionName);
+            Object bean = ac.getBean(beanDefinitionName);
+            System.out.println(bean);
         }
     }
 
